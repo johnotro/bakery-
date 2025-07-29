@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Treats Bakery</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Sweet Treats</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#custom-cake">Custom Cake</a></li>
+                <li><a href="#cart">Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Sweet Treats Daily</h1>
+                <p>Freshly baked delights made with love and the finest ingredients</p>
+                <button class="cta-button" onclick="scrollToMenu()">Order Now</button>
+            </div>
+            <div class="hero-image">
+                <img src="images/bakery-hero.jpg" alt="Delicious baked goods" onerror="this.src='https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=400&fit=crop'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <h2>Our Fresh Baked Goods</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="images/chocolate-cake.jpg" alt="Chocolate Cake" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=200&fit=crop'">
+                    <h3>Chocolate Cake</h3>
+                    <p class="price">$24.99</p>
+                    <button class="add-to-cart" data-name="Chocolate Cake" data-price="24.99">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="images/blueberry-muffin.jpg" alt="Blueberry Muffin" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop'">
+                    <h3>Blueberry Muffin</h3>
+                    <p class="price">$3.99</p>
+                    <button class="add-to-cart" data-name="Blueberry Muffin" data-price="3.99">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="images/fresh-bread.jpg" alt="Fresh Bread" onerror="this.src='https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&h=200&fit=crop'">
+                    <h3>Fresh Bread</h3>
+                    <p class="price">$5.99</p>
+                    <button class="add-to-cart" data-name="Fresh Bread" data-price="5.99">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="images/croissant.jpg" alt="Butter Croissant" onerror="this.src='https://images.unsplash.com/photo-1555507036-ab1f40388010?w=300&h=200&fit=crop'">
+                    <h3>Butter Croissant</h3>
+                    <p class="price">$4.49</p>
+                    <button class="add-to-cart" data-name="Butter Croissant" data-price="4.49">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Cake Builder Section -->
+    <section id="custom-cake" class="cake-builder">
+        <div class="container">
+            <h2>Build Your Own Cake</h2>
+            <div class="cake-builder-content">
+                <div class="cake-form">
+                    <div class="form-group">
+                        <label for="cake-flavor">Cake Flavor:</label>
+                        <select id="cake-flavor" onchange="updateCakePrice()">
+                            <option value="vanilla">Vanilla</option>
+                            <option value="chocolate">Chocolate</option>
+                            <option value="red-velvet">Red Velvet</option>
+                            <option value="carrot">Carrot</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cake-size">Size:</label>
+                        <select id="cake-size" onchange="updateCakePrice()">
+                            <option value="6-inch">6 inch ($15.99)</option>
+                            <option value="8-inch">8 inch ($22.99)</option>
+                            <option value="10-inch">10 inch ($29.99)</option>
+                            <option value="12-inch">12 inch ($39.99)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cake-frosting">Frosting:</label>
+                        <select id="cake-frosting" onchange="updateCakePrice()">
+                            <option value="vanilla-buttercream">Vanilla Buttercream</option>
+                            <option value="chocolate-buttercream">Chocolate Buttercream</option>
+                            <option value="cream-cheese">Cream Cheese</option>
+                            <option value="whipped-cream">Whipped Cream (+$2.00)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cake-toppings">Toppings:</label>
+                        <select id="cake-toppings" onchange="updateCakePrice()">
+                            <option value="none">None</option>
+                            <option value="sprinkles">Sprinkles (+$1.50)</option>
+                            <option value="fresh-fruits">Fresh Fruits (+$3.00)</option>
+                            <option value="chocolate-chips">Chocolate Chips (+$2.00)</option>
+                            <option value="nuts">Nuts (+$2.50)</option>
+                        </select>
+                    </div>
+                    <div class="price-display">
+                        <h3>Total Price: <span id="cake-price">$15.99</span></h3>
+                    </div>
+                    <button class="add-to-cart" onclick="addCustomCakeToCart()">Add Custom Cake to Cart</button>
+                </div>
+                <div class="cake-preview">
+                    <img src="images/cake-preview.jpg" alt="Cake Preview" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <h3>Total: <span id="cart-total">$0.00</span></h3>
+            </div>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Sweet Treats Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
