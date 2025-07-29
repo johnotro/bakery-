@@ -5,8 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flavish Bakery - Fresh Baked Delights</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button id="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -17,7 +34,9 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#menu">Menu</a></li>
                 <li><a href="#custom-cake">Custom Cake</a></li>
-                <li><a href="#cart">Cart (<span id="cart-count">0</span>)</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#cart" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
             </ul>
         </div>
     </nav>
@@ -36,34 +55,116 @@
         </div>
     </section>
 
-    <!-- Product Menu Section -->
+    <!-- Daily Specials Section -->
+    <section class="daily-specials">
+        <div class="container">
+            <div class="special-card">
+                <div class="special-content">
+                    <h3>🍰 Today's Special</h3>
+                    <h2>Red Velvet Cupcakes</h2>
+                    <p class="special-price">$3.99 each</p>
+                    <p class="special-description">Handcrafted with cream cheese frosting</p>
+                    <div class="countdown" id="countdown">
+                        <span>Offer ends in: </span>
+                        <span id="timer">23:59:59</span>
+                    </div>
+                    <button class="special-btn" onclick="addToCart('Red Velvet Cupcake', 3.99)">Get Special</button>
+                </div>
+                <div class="special-image">
+                    <img src="images/red-velvet-cupcake.jpg" alt="Red Velvet Cupcake" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=200&fit=crop'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Menu Section with Filters -->
     <section id="menu" class="menu-section">
         <div class="container">
             <h2>Our Fresh Baked Goods</h2>
-            <div class="products-grid">
-                <div class="product-card">
+            
+            <!-- Filter and Sort Controls -->
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="category-filter">Category:</label>
+                    <select id="category-filter" onchange="filterProducts()">
+                        <option value="all">All Products</option>
+                        <option value="cakes">Cakes</option>
+                        <option value="bread">Bread</option>
+                        <option value="pastries">Pastries</option>
+                        <option value="gluten-free">Gluten-Free</option>
+                    </select>
+                </div>
+                <div class="sort-group">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by" onchange="sortProducts()">
+                        <option value="name">Name</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="popularity">Popularity</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <div class="product-card" data-category="cakes" data-price="24.99" data-popularity="5">
                     <img src="images/chocolate-cake.jpg" alt="Chocolate Cake" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=200&fit=crop'">
                     <h3>Chocolate Cake</h3>
                     <p class="price">$24.99</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(5.0)</span>
+                    </div>
                     <button class="add-to-cart" data-name="Chocolate Cake" data-price="24.99">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-category="pastries" data-price="3.99" data-popularity="4">
                     <img src="images/blueberry-muffin.jpg" alt="Blueberry Muffin" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop'">
                     <h3>Blueberry Muffin</h3>
                     <p class="price">$3.99</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.2)</span>
+                    </div>
                     <button class="add-to-cart" data-name="Blueberry Muffin" data-price="3.99">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-category="bread" data-price="5.99" data-popularity="3">
                     <img src="images/fresh-bread.jpg" alt="Fresh Bread" onerror="this.src='https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&h=200&fit=crop'">
                     <h3>Fresh Bread</h3>
                     <p class="price">$5.99</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.5)</span>
+                    </div>
                     <button class="add-to-cart" data-name="Fresh Bread" data-price="5.99">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-category="pastries" data-price="4.49" data-popularity="4">
                     <img src="images/croissant.jpg" alt="Butter Croissant" onerror="this.src='https://images.unsplash.com/photo-1555507036-ab1f40388010?w=300&h=200&fit=crop'">
                     <h3>Butter Croissant</h3>
                     <p class="price">$4.49</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">(4.8)</span>
+                    </div>
                     <button class="add-to-cart" data-name="Butter Croissant" data-price="4.49">Add to Cart</button>
+                </div>
+                <div class="product-card" data-category="cakes" data-price="18.99" data-popularity="4">
+                    <img src="images/vanilla-cake.jpg" alt="Vanilla Cake" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=200&fit=crop'">
+                    <h3>Vanilla Cake</h3>
+                    <p class="price">$18.99</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.3)</span>
+                    </div>
+                    <button class="add-to-cart" data-name="Vanilla Cake" data-price="18.99">Add to Cart</button>
+                </div>
+                <div class="product-card" data-category="gluten-free" data-price="6.99" data-popularity="3">
+                    <img src="images/gluten-free-cookie.jpg" alt="Gluten-Free Cookie" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop'">
+                    <h3>Gluten-Free Cookie</h3>
+                    <p class="price">$6.99</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">(4.1)</span>
+                    </div>
+                    <button class="add-to-cart" data-name="Gluten-Free Cookie" data-price="6.99">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -112,6 +213,10 @@
                             <option value="nuts">Nuts (+$2.50)</option>
                         </select>
                     </div>
+                    <div class="cake-preview-text">
+                        <h4>Your Custom Cake:</h4>
+                        <p id="cake-description">Vanilla cake, 6 inch, Vanilla Buttercream frosting</p>
+                    </div>
                     <div class="price-display">
                         <h3>Total Price: <span id="cake-price">$15.99</span></h3>
                     </div>
@@ -119,6 +224,95 @@
                 </div>
                 <div class="cake-preview">
                     <img src="images/cake-preview.jpg" alt="Cake Preview" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonials-carousel">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The best chocolate cake I've ever had! Moist, rich, and absolutely delicious."</p>
+                    <div class="customer-info">
+                        <strong>Sarah Johnson</strong>
+                        <span>Verified Customer</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Amazing custom cake for my daughter's birthday. The design was perfect and tasted incredible!"</p>
+                    <div class="customer-info">
+                        <strong>Mike Chen</strong>
+                        <span>Verified Customer</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★☆</div>
+                    <p>"Fresh bread every morning. The croissants are to die for! Highly recommend."</p>
+                    <div class="customer-info">
+                        <strong>Emma Davis</strong>
+                        <span>Verified Customer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h3>Stay Sweet!</h3>
+                <p>Subscribe to our newsletter for exclusive offers, new recipes, and bakery updates.</p>
+                <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                    <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section with Map -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Visit Our Bakery</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>123 Baker Street<br>Sweet City, SC 12345</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>(555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Hours</h4>
+                            <p>Mon-Sat: 7AM - 8PM<br>Sunday: 8AM - 6PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a23e28c1191%3A0x49f75d3281df052a!2s150%20Park%20Row%2C%20New%20York%2C%20NY%2010007!5e0!3m2!1sen!2sus!4v1640995200000!5m2!1sen!2sus"
+                        width="100%" 
+                        height="300" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -133,14 +327,114 @@
             <div class="cart-total">
                 <h3>Total: <span id="cart-total">$0.00</span></h3>
             </div>
-            <button class="checkout-btn">Checkout</button>
+            <button class="checkout-btn" onclick="showCheckoutForm()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content checkout-form">
+            <span class="close">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkout-form" onsubmit="processCheckout(event)">
+                <div class="form-group">
+                    <label for="customer-name">Full Name:</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">Email:</label>
+                    <input type="email" id="customer-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Phone:</label>
+                    <input type="tel" id="customer-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-address">Delivery Address:</label>
+                    <textarea id="customer-address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="credit-card">Credit Card</option>
+                        <option value="debit-card">Debit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="cash">Cash on Delivery</option>
+                    </select>
+                </div>
+                <div class="checkout-summary">
+                    <h4>Order Summary</h4>
+                    <div id="checkout-items"></div>
+                    <div class="checkout-total">
+                        <strong>Total: <span id="checkout-total">$0.00</span></strong>
+                    </div>
+                </div>
+                <button type="submit" class="checkout-btn">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-button" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-box" id="chat-box">
+            <div class="chat-header">
+                <h4>Chat with us</h4>
+                <button onclick="toggleChat()" class="close-chat">×</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot">
+                    <p>Hello! How can we help you today? 🍰</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleChatInput(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Flavish Bakery. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Flavish Bakery</h3>
+                    <p>Fresh baked goods made with love and the finest ingredients.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#custom-cake">Custom Cakes</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Get updates on new products and special offers!</p>
+                    <form class="footer-newsletter" onsubmit="subscribeNewsletter(event)">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Flavish Bakery. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
