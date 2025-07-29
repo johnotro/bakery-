@@ -1,4 +1,4 @@
-# Sweet Treats Bakery Website
+# Flavish Bakery Website
 
 A responsive bakery website built with HTML, CSS, and JavaScript featuring a warm color scheme and interactive features.
 
